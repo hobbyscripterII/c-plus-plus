@@ -21,5 +21,11 @@
     <ClCompile Include="Start.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="If.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="For.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

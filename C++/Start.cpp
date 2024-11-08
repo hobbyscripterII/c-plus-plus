@@ -13,12 +13,12 @@ namespace NameSpace1 {
 	int d = 40;
 }
 
-int main() {
-	cout << "내가 만든 첫번째 C++ 프로그램" << endl;
-	cout << "----------------------------------------" << endl;
-	cout << "Namespace 출력" << endl;
-	cout << NameSpace1::a << endl;
-	cout << NameSpace1::b << endl;
-	cout << NameSpace1::c << endl;
-	cout << NameSpace1::d << endl;
-}
+//int main() {
+//	cout << "내가 만든 첫번째 C++ 프로그램" << endl;
+//	cout << "----------------------------------------" << endl;
+//	cout << "Namespace 출력" << endl;
+//	cout << NameSpace1::a << endl;
+//	cout << NameSpace1::b << endl;
+//	cout << NameSpace1::c << endl;
+//	cout << NameSpace1::d << endl;
+//}
