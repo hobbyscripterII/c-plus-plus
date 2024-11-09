@@ -16,8 +16,8 @@ int ForTest(int idx) {
 	return total;
 }
 
-int main() {
-	int result = ForTest(10);
-	
-	cout << "ForTest의 결과 값은 " << result << "입니다." << endl;
-}
+//int main() {
+//	int result = ForTest(10);
+//	
+//	cout << "ForTest의 결과 값은 " << result << "입니다." << endl;
+//}
