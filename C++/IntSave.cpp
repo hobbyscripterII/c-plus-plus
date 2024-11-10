@@ -15,40 +15,33 @@ int random(int min, int max) {
 
 class IntSave {
 private:
-	int* arr;						  // 동적 배열을 저장하는 포인터
-	int size;						  // main에서 객체 생성(초기화 시) 저장되는 배열의 최대 개수
-	int idx			 = random(1, 10); // 배열 index의 값
-	int removeIdxCnt = 0;			  // 삭제해야 할 index 개수
+	int* arr;
+	int size;
+	int idx			 = random(7, 14);
+	int removeIdxCnt = 0;
 public:
 	// IntSave 클래스의 생성자
 	IntSave(int size) {
 		this->size = size;
-		arr = new int[size]; // 동적 배열 할당
+		arr		   = new int[size]; // 동적 배열 할당
 	}
 
-	// 배열 생성을 담당하는 메소드
-	void addArr() {
-		// 디버깅용
-		cout << "=====================" << endl;
-		cout << "arr 배열 사이즈  : " << size << endl;
-		cout << "for문의 index    : " << idx << endl;
-		cout << "=====================" << endl;
+	~IntSave() {
+		delete[] arr;
+	}
 
+	void addArr() {
 		for (int i = 0; i < idx; i++) {
 			// 생성자에서 지정했던 배열의 최대 개수와 일치할 경우 공간을 늘린다.
 			if (i == size) {
-				arrExpand();
+				arrTask("확장");
 			}
 
 			// 1 ~ 100까지의 랜덤 값이 할당된다.
 			arr[i] = random(1, 100);
-
-			// 디버깅용
-			cout << "arr[i]           : " << arr[i] << endl;
 		}
 	}
 
-	// 호출 시점의 배열 값을 확인할 수 있는 메소드
 	void printArr() {
 		cout << "arr [ ";
 
@@ -60,26 +53,63 @@ public:
 	}
 
 	// 공간 확장 시 호출하는 메소드
-	void arrExpand() {
-		int newSize = size * 2;			// 공간 2배 확장용
-		int* newArr = new int[newSize];	// temp용 배열
-		
-		// 백업
-		for (int i = 0; i < size; i++) {
-			newArr[i] = arr[i];
+	//void arrExpand() {
+	//	int newSize = size * 2;			// 공간 2배 확장용
+	//	int* newArr = new int[newSize];	// temp용 배열
+	//	
+	//	// 백업
+	//	for (int i = 0; i < size; i++) {
+	//		newArr[i] = arr[i];
+	//	}
+
+	//	delete[] arr;		// 기존에 있던 배열 메모리 해제
+	//	int temp = size;
+	//	arr		 = newArr;  // temp용 배열에 있던 정수를 원래 있던 배열로 옮김
+	//	size	 = newSize; // 위 맥락과 같음
+
+	//	cout << "*********************" << endl;
+	//	cout << "배열이 꽉 찼으므로 공간을 2배로 확장합니다." << endl;
+	//	cout << " " << endl;
+	//	cout << "이전 배열 사이즈 : " << temp << endl;
+	//	cout << "현재 배열 사이즈 : " << size << endl;
+	//	cout << "*********************" << endl;
+	//}
+
+	void arrTask(string fl) {
+		int newSize = 0;
+
+		if (fl == "확장") {
+			newSize     = size * 2;
+			int* newArr = new int[newSize];
+
+			for (int i = 0; i < size; i++) {
+				newArr[i] = arr[i];
+			}
+
+			delete[] arr;		// 기존에 있던 배열 메모리 해제
+			size = newSize;		// 전역 변수 size에 바뀐 size로 업데이트
+			arr  = newArr;		// temp용 배열에 있던 정수를 원래 있던 배열로 옮김
 		}
+		else {
+			for (int i = 0; i < size; i++) {
+				if (arr[i] > 0) {
+					newSize++;
+				}
+			}
 
-		delete[] arr;		// 기존에 있던 배열 메모리 해제
-		int temp = size;
-		arr		 = newArr;  // temp용 배열에 있던 정수를 원래 있던 배열로 옮김
-		size	 = newSize; // 위 맥락과 같음
+			int* newArr = new int[newSize]();
+			int  newIdx = 0;
 
-		cout << "*********************" << endl;
-		cout << "배열이 꽉 찼으므로 공간을 2배로 확장합니다." << endl;
-		cout << " " << endl;
-		cout << "이전 배열 사이즈 : " << temp << endl;
-		cout << "현재 배열 사이즈 : " << size << endl;
-		cout << "*********************" << endl;
+			for (int i = 0; i < size; i++) {
+				if (arr[i] > 0) {
+					newArr[newIdx++] = arr[i];
+				}
+			}
+
+			delete[] arr;		// 기존에 있던 배열 메모리 해제
+			size = newSize;		// 전역 변수 size에 바뀐 size로 업데이트
+			arr  = newArr;		// temp용 배열에 있던 정수를 원래 있던 배열로 옮김
+		}
 	}
 
 	int minNum() {
@@ -114,9 +144,8 @@ public:
 
 	void removeArrNum(int num) {
 		for (int i = 0; i < idx; i++) {
-			cout << "arr[i] = " << arr[i] << " num = " << num << endl;
-
 			if (arr[i] == num) {
+				cout << "삭제할 값 : " << arr[i] << " 인덱스 : " << i << endl;
 				arr[i] = 0;			// 맥락 상의 remove
 				removeIdxCnt++;
 				break;
@@ -145,14 +174,16 @@ public:
 		this->removeArrNum(oldNum);
 		this->removeArrNum(newNum);
 		this->removeArrNum(avgNum);
+		this->arrTask("축소");
 		cout << "=====================" << endl;
 	}
 };
 
 int main() {
-	int size = random(1, 10);
+	int size = random(7, 14);
 	IntSave intSave(size);		// 객체 생성
 	intSave.addArr();			// 배열 값 초기화
+	intSave.printArr();			// 배열 출력
 	intSave.numRemoveTask();	// 배열 값 삭제
 	intSave.printArr();			// 배열 출력
 }
